@@ -11,6 +11,73 @@
 
 </head>
     <body>
+    <!-- Add Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                <li>
+                     <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                     <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                     <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                             <input type="text" class="form-control" placeholder="Username" name="username" >
+                             <input type="password" class="form-control" placeholder="Password" name="psw" >
+                             <button class="btn btn-primary" type="submit" style="margin-left:5px">Login</button>
+                             <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                        </div>
+                     </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
     <!--Add review form here -->
+    <div class="container" style="margin-top:25px">
+        <div class="row">
+            <div class="col-md">
+                <h4 class="mb-5"> Add a review</h4>
+                <form>
+                    
+                    <H5>Review content:</H5><br>
+                    <textarea class="form-control" id="content" name="content" rows="2" required></textarea><br>
+                    <div class="d-flex mt-3">
+                        <div class="mr-5">
+                            <h5>Select car:</h5>
+                            <select name="car" id="car" class="form-select"><br>
+                                {% for car in cars %}
+                                    <option selected value={{car.id}}>{{car.name}}-{{car.make}}-{{ car.year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button class="btn btn-primary mt-5" type="submit">Add review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="navbar navbar-light bg-light" style="margin-top:15px; bottom:0; width:100%">
+        <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+            </div>
+            <div class="text-center p-3">
+                © 2023 <a class="text-dark" href="{% url 'djangoapp:index' %}">Dealership Review</a>
+            </div>
+        </div>
+    </footer>
     </body>
+    <script type="text/javascript">
+        $('.date-own').datepicker({
+           format: 'mm/dd/yyyy'
+         });
+   </script>
 </html>
